@@ -1,1 +1,3 @@
-Aqui subo los cambios
+/*Literal 1*/
+
+update notas set nota=floor((random()*(10-4))+4);
