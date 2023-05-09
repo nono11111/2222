@@ -1,3 +1,12 @@
 /*Literal 1*/
 
 update notas set nota=floor((random()*(10-4))+4);
+
+
+/*Literal 2*/
+SELECT concat(e.nombre,' ', e.apellido), c.nombre_carrera
+FROM estudiantes e
+INNER JOIN estudiantes_carrera ec ON e.idEstudiante = ec.idEstudiante
+INNER JOIN carreras c ON ec.codigo_carrera = c.codigo_carrera
+WHERE c.nombre_carrera = 'Ingenieria de Sistemas Informaticos'
+ORDER BY char_length(e.apellido);
