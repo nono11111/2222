@@ -1,5 +1,28 @@
 -- 3 
 
+-- segundo trigger
+
+CREATE OR REPLACE TRIGGER p3_e3_2_trigger 
+BEFORE DELETE ON clientes_temp
+FOR EACH ROW
+EXECUTE FUNCTION eliminar_de_detalle_cliente(); 
+
+CREATE OR REPLACE FUNCTION eliminar_de_detalle_cliente()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+
+BEGIN
+	
+	DELETE FROM detalle_clientes WHERE id_cliente = OLD.id_cliente;
+	RAISE NOTICE 'Eliminado de detalle cliente';
+ RETURN OLD; 
+END; 
+$$
+
+---------------------------------------------
+
+
 CREATE OR REPLACE TRIGGER p3_3_trigger 
 BEFORE DELETE ON clientes
 FOR EACH ROW
