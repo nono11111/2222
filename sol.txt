@@ -5,3 +5,35 @@ BEFORE INSERT OR UPDATE ON clientes
 FOR EACH ROW
 WHEN (NEW.saldo IS DISTINCT FROM null)
 EXECUTE FUNCTION check_query();
+
+--2
+
+CREATE OR REPLACE FUNCTION tipo_de_consulta()
+RETURNS TRIGGER 
+LANGUAGE PLPGSQL
+AS $$
+
+BEGIN
+
+	IF TG_OP = 'INSERT' THEN
+	
+		RAISE NOTICE 'INSERT'; 
+	
+	ELSEIF TG_OP = 'UPDATE' THEN
+ 	
+		RAISE NOTICE 'UPDATE'; 
+
+	END IF; 
+ RETURN NEW; 
+END; 
+$$
+
+--pruebas, se ejecuta la funcion cuando el saldo no es nulo
+
+INSERT INTO clientes(nombre, saldo) Values('Manuel Rivera', null);
+
+UPDATE clientes SET saldo = null WHERE id_cliente = 1;
+
+INSERT INTO clientes(nombre, saldo) Values('Manuel Rivera', 10);
+
+UPDATE clientes SET saldo = 25 WHERE id_cliente = 1;
