@@ -1,28 +1,7 @@
-/*Literal 1*/
+--1
 
-update notas set nota=floor((random()*(10-4))+4);
-
-
-/*Literal 2*/
-SELECT concat(e.nombre,' ', e.apellido), c.nombre_carrera
-FROM estudiantes e
-INNER JOIN estudiantes_carrera ec ON e.idEstudiante = ec.idEstudiante
-INNER JOIN carreras c ON ec.codigo_carrera = c.codigo_carrera
-WHERE c.nombre_carrera = 'Ingenieria de Sistemas Informaticos'
-ORDER BY char_length(e.apellido);
-
-
-/*Literal 3*/
-
-SELECT concat(e.nombre,' ', e.apellido) AS nombre_completo, c.nombre_carrera, 
-(SELECT nota FROM notas WHERE idmateria = 2 AND idestudiante=e.idestudiante) AS nota_mate_I, 
-(SELECT nota FROM notas WHERE idmateria = 3 AND idestudiante=e.idestudiante) AS nota_fisica_I, 
-(SELECT nota FROM notas WHERE idmateria = 1 AND idestudiante=e.idestudiante) AS nota_progra_I
-FROM estudiantes e
-INNER JOIN estudiantes_carrera ec ON e.idEstudiante = ec.idEstudiante
-INNER JOIN carreras c ON ec.codigo_carrera = c.codigo_carrera
-INNER JOIN notas n ON e.idEstudiante = n.idEstudiante
-INNER JOIN materias m ON n.idMateria = m.idMateria
-WHERE (m.idmateria = 1 AND n.nota >= 7)
-GROUP BY e.idEstudiante, c.nombre_carrera
-
+CREATE OR REPLACE TRIGGER p3_1_trigger 
+BEFORE INSERT OR UPDATE ON clientes
+FOR EACH ROW
+WHEN (NEW.saldo IS DISTINCT FROM null)
+EXECUTE FUNCTION check_query();
