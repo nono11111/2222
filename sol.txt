@@ -17,11 +17,13 @@ BEGIN
 
 	IF TG_OP = 'INSERT' THEN
 	
-		RAISE NOTICE 'INSERT'; 
+	    INSERT INTO detalle_clientes(id_cliente, ultima_actualizacion) Values(new.id_cliente, NOW());
+		RAISE NOTICE 'Detalle cliente insertado'; 
 	
 	ELSEIF TG_OP = 'UPDATE' THEN
- 	
-		RAISE NOTICE 'UPDATE'; 
+	
+ 	    UPDATE detalle_clientes SET ultima_actualizacion = NOW() WHERE id_cliente = new.id_cliente;
+		RAISE NOTICE 'Ultima actualizacion registrada'; 
 
 	END IF; 
  RETURN NEW; 
